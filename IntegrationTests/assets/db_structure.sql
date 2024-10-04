@@ -1,5 +1,6 @@
 ﻿-- Script de criação do banco de dados
 drop database if exists TestDb;
+
 create database TestDb;
 
 use TestDb;

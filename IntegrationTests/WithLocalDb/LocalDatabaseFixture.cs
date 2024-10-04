@@ -24,7 +24,7 @@ public class LocalDatabaseFixture : IDisposable
         using (var connection = new SqlConnection(ConnectionString))
         {
             connection.Open();
-
+            //connection.Execute($"CREATE DATABASE [{_databaseName}]");
             // Carrega e executa o script de criação da estrutura
             var structureScript = File.ReadAllText(@".\assets\db_structure.sql");
             connection.Execute(structureScript);
@@ -33,14 +33,11 @@ public class LocalDatabaseFixture : IDisposable
             var dataScript = File.ReadAllText(@".\assets\db_data.sql");
             connection.Execute(dataScript);
         }
+        ConnectionString = $"Server=(localdb)\\mssqllocaldb;Database={_databaseName};Integrated Security=true;";
     }
 
     public void Dispose()
     {
-        using (var connection = new SqlConnection("Server=(localdb)\\mssqllocaldb;Integrated Security=true;"))
-        {
-            connection.Open();
-            connection.Execute($"DROP DATABASE [{_databaseName}]");
-        }
+
     }
 }
